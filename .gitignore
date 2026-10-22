@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Environment & Secrets
+.env
+.env.local
+!.env.example
+
+# Test Results & Reports (Playwright)
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+playwright/.auth/
+
+# Build & Temp
+dist/
+build/
+tmp/
+temp/
+*.log
+
+# IDEs & Editors
+.idea/
+.vscode/
+.DS_Store
