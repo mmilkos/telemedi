@@ -10,6 +10,6 @@ npm install && npx playwright install --with-deps
 - ```npm run test:ui --login=[LOGIN] --password=[PASSWORD]``` - Testy z interaktywnym UI playwright
 -  ```npm run report``` - Wyietlenie raportu z testów
 
-## @knownBug
+## @known-bug
 
 Test 'Umówienie wizyty zdalnej chat' oznaczony tagiem @known-bug pokrywa znaleziony defekt i nie przejdzie.
