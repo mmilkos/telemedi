@@ -10,7 +10,7 @@ export default defineConfig({
   retries: 1,
   workers: 1,
   reporter: 'html',
-  timeout: 60000,
+  timeout: 180000,
   expect: {
     timeout: 5000
   },

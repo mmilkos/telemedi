@@ -1,4 +1,5 @@
-import {Page} from '@/fixtures/fixtures';
+import {Page, test} from '@/fixtures/fixtures';
+import {Locator} from "playwright-core";
 
 export abstract class BasePage {
     readonly page: Page;
@@ -18,5 +19,16 @@ export abstract class BasePage {
         ]);
 
         return response;
+    }
+
+
+    async getPriceFromElement(element: Locator): Promise<string> {
+        return await test.step('Pobierz cenę z elementu', async () => {
+            const text = await element.textContent() || '';
+
+            const match = text.match(/\d.*/);
+
+            return match ? match[0] : '';
+        });
     }
 }

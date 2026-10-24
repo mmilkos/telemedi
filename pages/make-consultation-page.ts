@@ -10,6 +10,10 @@ export class MakeConsultationPage extends BasePage {
     readonly todayBtn: Locator;
     readonly tomorrowBtn: Locator;
     readonly otherDateBtn: Locator;
+    readonly bookForPriceBtns: Locator;
+    readonly addPromoCodeBtn: Locator;
+    readonly promoCodeInput: Locator;
+    readonly redeemCode: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -20,6 +24,10 @@ export class MakeConsultationPage extends BasePage {
         this.todayBtn = this.page.getByLabel('Dzisiaj');
         this.tomorrowBtn = this.page.getByLabel('Jutro');
         this.otherDateBtn = this.page.locator('label[for="other"]');
+        this.bookForPriceBtns = this.page.getByRole('button', { name: /^Umów za/ });
+        this.addPromoCodeBtn = this.page.getByText(/Dodaj kod rabatowy/);
+        this.promoCodeInput = this.page.getByPlaceholder('Podaj kod');
+        this.redeemCode = this.page.getByRole('button', {name: 'Zrealizuj'});
     }
 
     async pickSpecialization(name: string){
@@ -56,6 +64,41 @@ export class MakeConsultationPage extends BasePage {
                 await this.page.waitForTimeout(5000)
             }
         });
+    }
+
+    async pickFirstDate(){
+        await test.step('Wybierz pierwszą datę z listy', async()=>{
+            await this.waitForResponseAfter('POST', 'consultations/check-price', async()=>{
+                await this.bookForPriceBtns.first().click();
+            })
+        })
+    }
+
+    async addPromoCode(code: string){
+        await test.step(`Dodaj kod promocyjny: ${code}`, async()=>{
+            await this.addPromoCodeBtn.click();
+            await this.promoCodeInput.waitFor({state: "visible"});
+            await this.promoCodeInput.fill(code);
+            await this.redeemCode.click()
+            await this.page.waitForTimeout(2000)
+        })
+    }
+
+    async submitFormAndGetConsultationId(price: string): Promise<string> {
+        return await test.step('Zatwierdź formularz i pobierz ID konsultacji z API', async () => {
+            const response = await this.waitForResponseAfter('POST', '/api/v2/consultations' , async () =>{
+                await this.clickOnBookForPriceBtn(price);
+            }, 201)
+
+            const body = await response.json();
+            return body.id;
+        });
+    }
+
+    private async clickOnBookForPriceBtn(price: string): Promise<void>{
+        await test.step(`Kliknij w przycisk "Opłać za ${price} "`, async ()=>{
+            await this.page.getByRole('button', { name: `Opłać za ${price}`, exact: false }).click();
+        })
     }
 
     private isSameDay (d1: Date, d2: Date): boolean {

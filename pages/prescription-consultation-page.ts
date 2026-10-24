@@ -34,16 +34,6 @@ export class PrescriptionConsultationPage extends BasePage {
         })
     }
 
-    async getPriceFromElement(element: Locator): Promise<string> {
-        return await test.step('Pobierz cenę z elementu', async () => {
-            const text = await element.textContent() || '';
-
-            const match = text.match(/\d.*/);
-
-            return match ? match[0] : '';
-        });
-    }
-
     async getPriceFromApi(actionFn: () => Promise<void>): Promise<string> {
         return await test.step('Pobierz cenę z API', async () => {
 
@@ -64,7 +54,7 @@ export class PrescriptionConsultationPage extends BasePage {
 
     async submitFormAndGetConsultationId(price: string): Promise<string> {
         return await test.step('Zatwierdź formularz i pobierz ID konsultacji z API', async () => {
-            const response = await this.waitForResponseAfter('POST', '/api/v2/consultations', async () =>{
+            const response = await this.waitForResponseAfter('POST', '/api/v2/consultations' , async () =>{
                 await this.clickOnBookForPriceBtn(price);
             }, 201)
 
