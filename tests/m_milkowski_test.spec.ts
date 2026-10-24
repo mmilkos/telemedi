@@ -61,7 +61,7 @@ test('Umawianie konsultacji z ankietą medyczną', async ({ homePage, prescripti
     await expect(page).toHaveURL(consultationTestData.paymentUrl);
 });
 
-test.only('Umówienie wizyty zdalnej chat @known-bug', async ({page, homePage, makeConsultationPage, consultationCleanup }) => {
+test('Umówienie wizyty zdalnej chat @known-bug', async ({page, homePage, makeConsultationPage, consultationCleanup }) => {
     await homePage.clickOnBookVisitBtn();
     await homePage.clickOnRemoteVisitBtn();
 
