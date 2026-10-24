@@ -2,7 +2,6 @@
 node_modules/
 
 # Environment & Secrets
-.env
 .env.local
 !.env.example
 
