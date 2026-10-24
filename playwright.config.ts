@@ -18,7 +18,6 @@ export default defineConfig({
     locale: 'pl-PL',
     baseURL: process.env.BASE_URL || 'https://testyautomatyczne.telemedi.com',
     trace: 'retain-on-failure-and-retries',
-    channel: 'chrome',
     headless: true,
     testIdAttribute: 'id'
   },
